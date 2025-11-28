@@ -16,4 +16,32 @@ export class UsersService {
   async findAll() {
     return this.prisma.usuario.findMany();
   }
+
+  // Buscar usuario por ID
+  async findOne(id: number) {
+    return this.prisma.usuario.findUnique({
+      where: { id },
+    });
+  }
+
+  // Eliminar usuario por ID
+  async remove(id: number) {
+    return this.prisma.usuario.delete({
+      where: { id },
+    });
+  }
+
+  // Actualizar usuario
+  async update(id: number, data: any) {
+    return this.prisma.usuario.update({
+      where: { id },
+      data,
+    });
+  }
+
+  findByEmail(email: string) {
+    return this.prisma.usuario.findUnique({
+      where: { email },
+    });
+  }
 }

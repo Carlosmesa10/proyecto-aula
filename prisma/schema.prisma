@@ -9,9 +9,21 @@ datasource db {
 }
 
 model usuario {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  email     String    @unique
+  password  String
+  role      String    @default("user")
+  creadoEn  DateTime  @default(now())
+  clientes  cliente[] // ← lado opuesto de la relación
+}
+
+model cliente {
   id        Int      @id @default(autoincrement())
   nombre    String
   email     String   @unique
-  password  String
+  telefono  String?
   creadoEn  DateTime @default(now())
+  usuarioId Int?
+  usuario   usuario? @relation(fields: [usuarioId], references: [id])
 }
