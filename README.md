@@ -13,7 +13,7 @@ El proyecto forma parte de un trabajo académico de desarrollo de software y dem
 - Backend API: https://proyecto-aula-production.up.railway.app
 - Repositorio: https://github.com/Carlosmesa10/proyecto-aula
 
-##Credenciales para probar funcionalidades:
+## **Credenciales para probar funcionalidades:**
 
 Administrador:[ email: admin@test.com ----- Password: 123456 ]
 
@@ -95,6 +95,7 @@ Este proyecto se desarrolló como evidencia de competencias en:
 - ## **Anexos de pruebas en pc como administrador**
   <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f51c969a-d90c-4b24-b898-bf21b12cce2d" />
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e9726ad8-d2c2-44fb-8e55-89d19997a4a4" />
+
 
 
 
