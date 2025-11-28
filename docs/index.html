@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Usuarios y Clientes</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 500px;
+        padding: 40px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 28px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+        font-family: inherit;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .section {
+        display: none;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      .tab-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 12px 0;
+        background: none;
+        color: #999;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin: 0;
+      }
+
+      .tab-btn.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+        background: none;
+      }
+
+      .message {
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        display: none;
+      }
+
+      .message.show {
+        display: block;
+      }
+
+      .message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+
+      .message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+      }
+
+      .dashboard-header h2 {
+        margin: 0 0 10px 0;
+        font-size: 24px;
+      }
+
+      .dashboard-header p {
+        margin: 0;
+        font-size: 14px;
+        opacity: 0.9;
+      }
+
+      .user-info {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        font-size: 14px;
+      }
+
+      .user-info strong {
+        color: #667eea;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 13px;
+      }
+
+      table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        color: #333;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      table td {
+        padding: 12px;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      table tr:hover {
+        background: #f9f9f9;
+      }
+
+      .btn-small {
+        background: #f44336;
+        padding: 6px 12px;
+        font-size: 12px;
+        width: auto;
+        margin: 0 2px 0 0;
+        display: inline-block;
+      }
+
+      .btn-small:hover {
+        background: #d32f2f;
+        box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+      }
+
+      .btn-small.edit {
+        background: #2196f3;
+      }
+
+      .btn-small.edit:hover {
+        background: #1976d2;
+      }
+
+      .logout-btn {
+        background: #f44336;
+        margin-top: 20px;
+      }
+
+      .logout-btn:hover {
+        background: #d32f2f;
+      }
+
+      .toggle-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #666;
+        font-size: 14px;
+      }
+
+      .toggle-link a {
+        color: #667eea;
+        cursor: pointer;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .toggle-link a:hover {
+        text-decoration: underline;
+      }
+
+      .role-badge {
+        display: inline-block;
+        background: #667eea;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .role-badge.admin {
+        background: #ff9800;
+      }
+
+      .role-badge.user {
+        background: #4caf50;
+      }
+
+      .search-box {
+        margin-bottom: 20px;
+      }
+
+      .search-box input {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: 22px;
+        }
+
+        table {
+          font-size: 12px;
+        }
+
+        table th,
+        table td {
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- AUTH SECTION -->
+      <div id="authSection" class="section active">
+        <h1>🔐 Acceso</h1>
+        <p class="subtitle">Ingresa a tu cuenta o crea una nueva</p>
+
+        <div id="authMessage" class="message"></div>
+
+        <!-- LOGIN FORM -->
+        <div id="loginForm">
+          <h2 style="font-size: 18px; color: #333; margin-bottom: 20px">
+            Iniciar sesión
+          </h2>
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="tu@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Contraseña</label>
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button onclick="handleLogin()">Iniciar sesión</button>
+          <div class="toggle-link">
+            ¿No tienes cuenta? <a onclick="toggleAuthForm()">Crear una</a>
+          </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="registerForm" class="hidden">
+          <h2 style="font-size: 18px; color: #333; margin-bottom: 20px">
+            Crear cuenta
+          </h2>
+          <div class="form-group">
+            <label for="registerName">Nombre completo</label>
+            <input
+              type="text"
+              id="registerName"
+              placeholder="Tu nombre"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="tu@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="registerPassword">Contraseña</label>
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="••••••••"
+              required
+            />
+          </div>
+          <button onclick="handleRegister()">Crear cuenta</button>
+          <div class="toggle-link">
+            ¿Ya tienes cuenta? <a onclick="toggleAuthForm()">Iniciar sesión</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- DASHBOARD SECTION -->
+      <div id="dashboardSection" class="section">
+        <div class="dashboard-header">
+          <h2>Dashboard</h2>
+          <p id="welcomeMessage">Bienvenido</p>
+        </div>
+
+        <div class="user-info">
+          <strong>Usuario:</strong> <span id="currentUserName">-</span><br />
+          <strong>Email:</strong> <span id="currentUserEmail">-</span><br />
+          <strong>Rol:</strong>
+          <span id="currentUserRole" class="role-badge">-</span>
+        </div>
+
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="switchTab('clientes')">
+            Clientes
+          </button>
+          <button
+            class="tab-btn"
+            id="usersTabBtn"
+            onclick="switchTab('usuarios')"
+            class="hidden"
+          >
+            Usuarios
+          </button>
+        </div>
+
+        <div id="dashboardMessage" class="message"></div>
+
+        <!-- CLIENTES TAB -->
+        <div id="clientesTab" class="tab-content active">
+          <h3 style="color: #333; margin-bottom: 20px">Gestionar Clientes</h3>
+
+          <div class="form-group">
+            <label for="clientNombre">Nombre del cliente</label>
+            <input
+              type="text"
+              id="clientNombre"
+              placeholder="Nombre"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="clientEmail">Email del cliente</label>
+            <input
+              type="email"
+              id="clientEmail"
+              placeholder="cliente@email.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="clientTelefono">Teléfono (opcional)</label>
+            <input type="text" id="clientTelefono" placeholder="Teléfono" />
+          </div>
+          <button
+            id="addClientBtn"
+            onclick="handleAddClient()"
+            style="
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            "
+          >
+            Agregar cliente
+          </button>
+          <button
+            id="cancelEditBtn"
+            onclick="cancelEdit()"
+            class="hidden"
+            style="background: #999"
+          >
+            Cancelar
+          </button>
+
+          <h4 style="color: #333; margin-top: 30px; margin-bottom: 15px">
+            Listado de clientes
+          </h4>
+
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchClientes"
+              placeholder="Buscar cliente..."
+              onkeyup="filterClientes()"
+            />
+          </div>
+
+          <div id="clientesList"></div>
+        </div>
+
+        <!-- USUARIOS TAB (SOLO ADMIN) -->
+        <div id="usuariosTab" class="tab-content hidden">
+          <h3 style="color: #333; margin-bottom: 20px">Listado de usuarios</h3>
+          <div id="usuariosList"></div>
+        </div>
+
+        <button class="logout-btn" onclick="handleLogout()">
+          Cerrar sesión
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = 'https://proyecto-aula-production.up.railway.app';
+      let currentToken = null;
+      let currentUser = null;
+      let editingClientId = null;
+      let allClientes = [];
+
+      // FUNCIONES DE AUTENTICACIÓN
+      function toggleAuthForm() {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        loginForm.classList.toggle('hidden');
+        registerForm.classList.toggle('hidden');
+      }
+
+      async function handleRegister() {
+        const nombre = document.getElementById('registerName').value;
+        const email = document.getElementById('registerEmail').value;
+        const password = document.getElementById('registerPassword').value;
+
+        if (!nombre || !email || !password) {
+          showMessage(
+            'authMessage',
+            'Por favor completa todos los campos',
+            'error',
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/auth/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showMessage(
+              'authMessage',
+              'Cuenta creada exitosamente. Inicia sesión.',
+              'success',
+            );
+            document.getElementById('registerName').value = '';
+            document.getElementById('registerEmail').value = '';
+            document.getElementById('registerPassword').value = '';
+            setTimeout(() => toggleAuthForm(), 2000);
+          } else {
+            showMessage(
+              'authMessage',
+              data.message || 'Error al crear cuenta',
+              'error',
+            );
+          }
+        } catch (error) {
+          showMessage(
+            'authMessage',
+            'Error de conexión: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      async function handleLogin() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+
+        if (!email || !password) {
+          showMessage(
+            'authMessage',
+            'Por favor completa email y contraseña',
+            'error',
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            currentToken = data.access_token;
+            currentUser = data.user;
+            localStorage.setItem('token', currentToken);
+            localStorage.setItem('user', JSON.stringify(currentUser));
+            showAuthSection(false);
+            loadDashboard();
+          } else {
+            showMessage(
+              'authMessage',
+              data.message || 'Credenciales inválidas',
+              'error',
+            );
+          }
+        } catch (error) {
+          showMessage(
+            'authMessage',
+            'Error de conexión: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      function handleLogout() {
+        currentToken = null;
+        currentUser = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        showAuthSection(true);
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('authMessage').classList.remove('show');
+      }
+
+      // FUNCIONES DEL DASHBOARD
+      function loadDashboard() {
+        document.getElementById('currentUserName').textContent =
+          currentUser.nombre;
+        document.getElementById('currentUserEmail').textContent =
+          currentUser.email;
+
+        const roleSpan = document.getElementById('currentUserRole');
+        roleSpan.textContent = currentUser.role;
+        roleSpan.className = `role-badge ${currentUser.role}`;
+
+        document.getElementById('welcomeMessage').textContent =
+          `Bienvenido, ${currentUser.nombre}`;
+
+        // Mostrar tab de usuarios solo si es admin
+        const usersTabBtn = document.getElementById('usersTabBtn');
+        if (currentUser.role === 'admin') {
+          usersTabBtn.classList.remove('hidden');
+        } else {
+          usersTabBtn.classList.add('hidden');
+        }
+
+        loadClientes();
+      }
+
+      function switchTab(tab) {
+        // Ocultar todos los tabs
+        document
+          .querySelectorAll('.tab-content')
+          .forEach((t) => t.classList.add('hidden'));
+        document
+          .querySelectorAll('.tab-btn')
+          .forEach((b) => b.classList.remove('active'));
+
+        // Mostrar tab seleccionado
+        if (tab === 'clientes') {
+          document.getElementById('clientesTab').classList.remove('hidden');
+          document.querySelectorAll('.tab-btn')[0].classList.add('active');
+          loadClientes();
+        } else if (tab === 'usuarios') {
+          document.getElementById('usuariosTab').classList.remove('hidden');
+          document.querySelectorAll('.tab-btn')[1].classList.add('active');
+          loadUsuarios();
+        }
+      }
+
+      async function loadClientes() {
+        try {
+          const response = await fetch(`${API_URL}/clients`, {
+            headers: { Authorization: `Bearer ${currentToken}` },
+          });
+
+          allClientes = await response.json();
+          renderClientes(allClientes);
+        } catch (error) {
+          showMessage(
+            'dashboardMessage',
+            'Error al cargar clientes: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      function renderClientes(clientes) {
+        let html = '';
+        if (clientes.length === 0) {
+          html =
+            '<p style="color: #999; text-align: center;">No hay clientes registrados.</p>';
+        } else {
+          html =
+            '<table><thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Acciones</th></tr></thead><tbody>';
+          clientes.forEach((cliente) => {
+            html += `
+                            <tr>
+                                <td>${cliente.nombre}</td>
+                                <td>${cliente.email}</td>
+                                <td>${cliente.telefono || '-'}</td>
+                                <td>
+                                    ${
+                                      currentUser.role === 'admin'
+                                        ? `
+                                        <button class="btn-small edit" onclick="editCliente(${cliente.id}, '${cliente.nombre.replace(/'/g, "\\'")}', '${cliente.email}', '${(cliente.telefono || '').replace(/'/g, "\\'")}')" >Editar</button>
+                                        <button class="btn-small" onclick="deleteCliente(${cliente.id})">Eliminar</button>
+                                    `
+                                        : '-'
+                                    }
+                                </td>
+                            </tr>
+                        `;
+          });
+          html += '</tbody></table>';
+        }
+
+        document.getElementById('clientesList').innerHTML = html;
+      }
+
+      function filterClientes() {
+        const search = document
+          .getElementById('searchClientes')
+          .value.toLowerCase();
+        const filtered = allClientes.filter(
+          (c) =>
+            c.nombre.toLowerCase().includes(search) ||
+            c.email.toLowerCase().includes(search),
+        );
+        renderClientes(filtered);
+      }
+
+      async function loadUsuarios() {
+        if (currentUser.role !== 'admin') {
+          showMessage(
+            'dashboardMessage',
+            'No tienes permiso para ver usuarios',
+            'error',
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/users`, {
+            headers: { Authorization: `Bearer ${currentToken}` },
+          });
+
+          const usuarios = await response.json();
+
+          let html =
+            '<table><thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Creado</th></tr></thead><tbody>';
+          usuarios.forEach((usuario) => {
+            const fecha = new Date(usuario.creadoEn).toLocaleDateString(
+              'es-ES',
+            );
+            html += `
+                        <tr>
+                            <td>${usuario.nombre}</td>
+                            <td>${usuario.email}</td>
+                            <td><span class="role-badge ${usuario.role}">${usuario.role}</span></td>
+                            <td>${fecha}</td>
+                        </tr>
+                    `;
+          });
+          html += '</tbody></table>';
+
+          document.getElementById('usuariosList').innerHTML = html;
+        } catch (error) {
+          showMessage(
+            'dashboardMessage',
+            'Error al cargar usuarios: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      function editCliente(id, nombre, email, telefono) {
+        editingClientId = id;
+        document.getElementById('clientNombre').value = nombre;
+        document.getElementById('clientEmail').value = email;
+        document.getElementById('clientTelefono').value = telefono;
+        document.getElementById('addClientBtn').textContent =
+          'Actualizar cliente';
+        document.getElementById('addClientBtn').id = 'updateClientBtn';
+        document.getElementById('updateClientBtn').onclick = handleUpdateClient;
+        document.getElementById('cancelEditBtn').classList.remove('hidden');
+        window.scrollTo(0, 0);
+      }
+
+      function cancelEdit() {
+        editingClientId = null;
+        document.getElementById('clientNombre').value = '';
+        document.getElementById('clientEmail').value = '';
+        document.getElementById('clientTelefono').value = '';
+        document.getElementById('updateClientBtn').id = 'addClientBtn';
+        document.getElementById('addClientBtn').textContent = 'Agregar cliente';
+        document.getElementById('addClientBtn').onclick = handleAddClient;
+        document.getElementById('cancelEditBtn').classList.add('hidden');
+      }
+
+      async function handleAddClient() {
+        const nombre = document.getElementById('clientNombre').value;
+        const email = document.getElementById('clientEmail').value;
+        const telefono = document.getElementById('clientTelefono').value;
+
+        if (!nombre || !email) {
+          showMessage(
+            'dashboardMessage',
+            'Por favor completa nombre y email',
+            'error',
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/clients`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${currentToken}`,
+            },
+            body: JSON.stringify({ nombre, email, telefono }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showMessage(
+              'dashboardMessage',
+              'Cliente agregado exitosamente',
+              'success',
+            );
+            document.getElementById('clientNombre').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientTelefono').value = '';
+            loadClientes();
+          } else {
+            showMessage(
+              'dashboardMessage',
+              data.message || 'Error al agregar cliente',
+              'error',
+            );
+          }
+        } catch (error) {
+          showMessage(
+            'dashboardMessage',
+            'Error de conexión: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      async function handleUpdateClient() {
+        const nombre = document.getElementById('clientNombre').value;
+        const email = document.getElementById('clientEmail').value;
+        const telefono = document.getElementById('clientTelefono').value;
+
+        if (!nombre || !email) {
+          showMessage(
+            'dashboardMessage',
+            'Por favor completa nombre y email',
+            'error',
+          );
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${API_URL}/clients/${editingClientId}`,
+            {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${currentToken}`,
+              },
+              body: JSON.stringify({ nombre, email, telefono }),
+            },
+          );
+
+          const data = await response.json();
+
+          if (response.ok) {
+            showMessage(
+              'dashboardMessage',
+              'Cliente actualizado exitosamente',
+              'success',
+            );
+            cancelEdit();
+            loadClientes();
+          } else {
+            showMessage(
+              'dashboardMessage',
+              data.message || 'Error al actualizar cliente',
+              'error',
+            );
+          }
+        } catch (error) {
+          showMessage(
+            'dashboardMessage',
+            'Error de conexión: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      async function deleteCliente(id) {
+        if (!confirm('¿Estás seguro de que deseas eliminar este cliente?'))
+          return;
+
+        try {
+          const response = await fetch(`${API_URL}/clients/${id}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${currentToken}` },
+          });
+
+          if (response.ok) {
+            showMessage(
+              'dashboardMessage',
+              'Cliente eliminado exitosamente',
+              'success',
+            );
+            loadClientes();
+          } else {
+            showMessage(
+              'dashboardMessage',
+              'Error al eliminar cliente',
+              'error',
+            );
+          }
+        } catch (error) {
+          showMessage(
+            'dashboardMessage',
+            'Error de conexión: ' + error.message,
+            'error',
+          );
+        }
+      }
+
+      // FUNCIONES UTILIDAD
+      function showAuthSection(show) {
+        document.getElementById('authSection').classList.toggle('active', show);
+        document
+          .getElementById('dashboardSection')
+          .classList.toggle('active', !show);
+      }
+
+      function showMessage(elementId, message, type) {
+        const element = document.getElementById(elementId);
+        element.textContent = message;
+        element.className = `message show ${type}`;
+        setTimeout(() => element.classList.remove('show'), 5000);
+      }
+
+      // INICIALIZACIÓN
+      window.onload = () => {
+        const token = localStorage.getItem('token');
+        const user = localStorage.getItem('user');
+
+        if (token && user) {
+          currentToken = token;
+          currentUser = JSON.parse(user);
+          showAuthSection(false);
+          loadDashboard();
+        }
+      };
+    </script>
+  </body>
+</html>
