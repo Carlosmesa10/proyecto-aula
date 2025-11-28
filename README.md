@@ -7,8 +7,16 @@ Aplicación web full stack para la gestión de clientes (CRM) orientada a peque�
 
 El proyecto forma parte de un trabajo académico de desarrollo de software y demuestra el uso integrado de arquitectura cliente-servidor, ORM, base de datos relacional y despliegue en la nube.
 
+## URLs
+
+- Frontend: https://carlosmesa10.github.io/proyecto-aula/
+- Backend API: https://proyecto-aula-production.up.railway.app
+- Repositorio: https://github.com/Carlosmesa10/proyecto-aula
+
 ##Credenciales para probar funcionalidades:
+
 Administrador:[ email: admin@test.com ----- Password: 123456 ]
+
 Usuario normal: [ email: talcual@cuc.co ------ Password: 123456]
 
 
@@ -76,3 +84,4 @@ Este proyecto se desarrolló como evidencia de competencias en:
 - Uso de NestJS, Prisma y PostgreSQL en un entorno de producción.
 - Integración de frontend estático con backend desplegado en la nube.
 - Aplicación de buenas prácticas de ingeniería de software y control de versiones.
+
