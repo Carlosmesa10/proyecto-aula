@@ -6,9 +6,12 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'http://localhost:3000',              // Desarrollo local
-      'https://proyecto-aula.surge.sh'      // Frontend en producción (Surge)
+      'http://localhost:3000',                 // desarrollo local
+      'https://carlosmesa10.github.io',        // GitHub Pages usuario
+      'https://carlosmesa10.github.io/proyecto-aula' // GitHub Pages del repo
     ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
   });
 
