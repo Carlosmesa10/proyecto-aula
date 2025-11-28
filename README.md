@@ -85,3 +85,12 @@ Este proyecto se desarrolló como evidencia de competencias en:
 - Integración de frontend estático con backend desplegado en la nube.
 - Aplicación de buenas prácticas de ingeniería de software y control de versiones.
 
+
+-#**Anexos de pruebas en mobile**
+![anexo 1](https://github.com/user-attachments/assets/c144d60d-7df3-4a69-8303-d2683b14af63)
+![anexo 2](https://github.com/user-attachments/assets/bcf24973-c1a5-467c-8270-5ec8eedbf037)
+![anexo 3](https://github.com/user-attachments/assets/f3ecbe77-1ec8-4adc-ab8d-87d3a38ce704)
+
+
+
+
