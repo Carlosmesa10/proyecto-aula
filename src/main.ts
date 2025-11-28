@@ -4,13 +4,26 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Habilitar CORS
   app.enableCors({
-    origin: '*', // permite cualquier origen (para desarrollo)
+    origin: [
+      'http://localhost:3000',
+      'https://proyecto-aula.surge.sh'
+    ],
+    credentials: true,
   });
 
-  await app.listen(3000);
-  console.log(`Aplicación corriendo en http://localhost:3000`);
+  // Health check endpoint
+  app.getHttpServer().on('request', (req, res) => {
+    if (req.url === '/' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'Backend funcionando correctamente' }));
+      return;
+    }
+  });
+
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  console.log(`Servidor corriendo en puerto ${port}`);
 }
 
 bootstrap();
