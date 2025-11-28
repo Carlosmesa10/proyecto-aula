@@ -92,6 +92,10 @@ Este proyecto se desarrolló como evidencia de competencias en:
 ![anexo 3](https://github.com/user-attachments/assets/f3ecbe77-1ec8-4adc-ab8d-87d3a38ce704)
 
 
+- **Anexos de pruebas en pc como administrador**
+  <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/f51c969a-d90c-4b24-b898-bf21b12cce2d" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/e9726ad8-d2c2-44fb-8e55-89d19997a4a4" />
+
 
 
 
